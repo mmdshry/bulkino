@@ -3,12 +3,13 @@
 namespace App\Notifications;
 
 use App\Channels\KavenegarSmsChannel;
+use App\Traits\MessageFormaterTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 class SmsNotification extends Notification
 {
-    use Queueable;
+    use Queueable, MessageFormaterTrait;
 
     private array $data;
 
@@ -36,7 +37,7 @@ class SmsNotification extends Notification
     public function toSms(object $notifiable): array
     {
         return [
-            'message' => $this->data['message'],
+            'message' => $this->line($this->data['message'])->cancel(),
             'receptor' => $this->data['receptor']
         ];
     }

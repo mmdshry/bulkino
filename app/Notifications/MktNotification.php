@@ -3,14 +3,15 @@
 namespace App\Notifications;
 
 use App\Channels\KavenegarMktChannel;
+use App\Traits\MessageFormaterTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 class MktNotification extends Notification
 {
-    use Queueable;
+    use Queueable, MessageFormaterTrait;
 
-    private array $message;
+    protected array $data;
 
     /**
      * Create a new notification instance.
@@ -36,7 +37,7 @@ class MktNotification extends Notification
     public function toSms(object $notifiable): array
     {
         return [
-            'message'   => $this->data['message'],
+            'message'   => $this->line($this->data['message'])->cancel(),
             'receptors' => $this->data['receptors']
         ];
     }
