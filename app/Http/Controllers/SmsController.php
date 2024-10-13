@@ -27,7 +27,7 @@ class SmsController extends Controller
     {
         Auth::user()->notify(new SmsNotification($request->validated()));
 
-        return $this->responseSuccessful('SMS ');
+        return $this->responseSuccessful('SMS request has been successfully');
     }
 
     public function otp(SendOtpSmsRequest $request)
